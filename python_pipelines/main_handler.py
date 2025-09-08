@@ -28,6 +28,7 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
     rows: List[Dict[str, Any]] = []
 
     # 1) Read & validate input
+    print("entering")
     input_df = check_and_parse_input(input_path)
     display(input_df)
 
