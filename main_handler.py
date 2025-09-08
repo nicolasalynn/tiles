@@ -28,6 +28,7 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
 
     # 1) Read & validate input
     input_df = check_and_parse_input(input_path)
+    display(input_df)
     if input_df is None:
         return False, ["Failed to parse input file."], rows, {
             "run_successful": False,
@@ -130,3 +131,20 @@ def check_and_parse_input(input_path: Path) -> Tuple[Optional[pd.DataFrame], str
     df = df[df["mut_id"] != ""].reset_index(drop=True)
 
     return df
+
+
+
+
+if __name__ == "__main__":
+    # Path to your input file
+    input_file = Path("sample_inputs.txt")
+
+    # Give it a manual job_id (e.g., from timestamp)
+    job_id = f"localtest_{int(time.time())}"
+
+    print("Running tiles_pipeline...")
+    success, errors, rows, meta = tiles_pipeline(input_file, job_id=job_id)
+
+    print("Success:", success)
+    print("Errors:", errors)
+    print("Meta:", json.dumps(meta, indent=2))
