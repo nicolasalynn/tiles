@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import time
+import json
 from pathlib import Path
 from typing import Tuple, List, Dict, Any, Optional
 import pandas as pd
@@ -124,6 +125,10 @@ def check_and_parse_input(input_path: Path) -> Tuple[Optional[pd.DataFrame], str
     # Drop blank rows
     df = df[df["mut_id"] != ""].reset_index(drop=True)
 
+    df['gene_name'] = df['mut_id'].apply(lambda x: re.split(r'[:\s]', x)[0] if pd.notna(x) else x)
+    from geney import available_genes
+    valid_genes = [g for g in available_genes('hg38')]
+    df = df[df['gene_name'].isin(valid_genes)]
     return df
 
 
