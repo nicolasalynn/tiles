@@ -49,10 +49,10 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
         items=input_df.mut_id.unique().tolist(),
         process_func=max_splicing_delta,
         output_file=str(out_path),
-        cluster_config={"memory_size": "4GB"},
+        cluster_config={"memory_size": "6GB", "partition": "tamirQ", "num_workers": 5},
         func_kwargs={"splicing_engine": "spliceai"},
         default_result=0,
-        batch_size=1000,
+        batch_size=20,
         save_interval=1,
         item_to_dict=None,
         cluster_type="pbs",
@@ -110,7 +110,7 @@ def check_and_parse_input(input_path: Path) -> Tuple[Optional[pd.DataFrame], str
     try:
         # Try flexible CSV read (handles CSV/TSV/whitespace; single field per row still works)
         df = pd.DataFrame(mutations, columns=["mut_id"])
-        
+
     except Exception:
         # Fallback: plain text
         lines = [ln for ln in input_path.read_text().splitlines() if ln and not ln.lstrip().startswith("#")]
