@@ -106,17 +106,11 @@ def check_and_parse_input(input_path: Path) -> Tuple[Optional[pd.DataFrame], str
     """
     input_path = Path(input_path)
 
+    mutations = open(input_path, 'r').readlines()
     try:
         # Try flexible CSV read (handles CSV/TSV/whitespace; single field per row still works)
-        df = pd.read_csv(
-            input_path,
-            sep=None,
-            engine="python",
-            header=None,
-            names=["mut_id"],
-            comment="#",
-            dtype=str,
-        )
+        df = pd.DataFrame(mutations, columns=["mut_id"])
+        
     except Exception:
         # Fallback: plain text
         lines = [ln for ln in input_path.read_text().splitlines() if ln and not ln.lstrip().startswith("#")]
