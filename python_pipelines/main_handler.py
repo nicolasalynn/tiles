@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import json
 import time
 from pathlib import Path
 from typing import Tuple, List, Dict, Any, Optional
@@ -130,3 +131,19 @@ def check_and_parse_input(input_path: Path) -> Tuple[Optional[pd.DataFrame], str
     df = df[df["mut_id"] != ""].reset_index(drop=True)
 
     return df
+
+
+
+
+if __name__ == "__main__":
+    # Path to your input file
+    input_file = Path("sample_inputs.txt")
+
+    # Give it a manual job_id (e.g., from timestamp)
+    job_id = f"localtest_{int(time.time())}"
+
+    success, errors, rows, meta = tiles_pipeline(input_file, job_id=job_id)
+
+    print("Success:", success)
+    print("Errors:", errors)
+    print("Meta:", json.dumps(meta, indent=2))
