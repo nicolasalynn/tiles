@@ -146,6 +146,7 @@ if __name__ == "__main__":
     # Give it a manual job_id (e.g., from timestamp)
     job_id = f"localtest_{int(time.time())}"
 
+    print("Running tiles_pipeline...")
     success, errors, rows, meta = tiles_pipeline(input_file, job_id=job_id)
 
     print("Success:", success)
