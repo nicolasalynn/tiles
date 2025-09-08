@@ -29,6 +29,9 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
 
     # 1) Read & validate input
     input_df = check_and_parse_input(input_path)
+    display(input_df)
+
+
     if input_df is None:
         return False, ["Failed to parse input file."], rows, {
             "run_successful": False,
@@ -43,7 +46,7 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
 
     out_path = Path(f"/tamir2/nicolaslynn/projects/tiles/temporary_files/job{job_id}.csv")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-
+    print('here')
     # 2) Run pipeline
     process_with_dask_pipeline(
         items=input_df.mut_id.unique().tolist(),
