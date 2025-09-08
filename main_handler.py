@@ -29,6 +29,8 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
 
     # 1) Read & validate input
     input_df = check_and_parse_input(input_path)
+    if len(input_df) > 5:
+        input_df = input_df.sample(n=5, random_state=42).reset_index(drop=True)
     print(input_df)
     if input_df is None:
         return False, ["Failed to parse input file."], rows, {
