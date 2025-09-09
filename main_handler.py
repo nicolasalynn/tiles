@@ -80,6 +80,7 @@ def tiles_pipeline(input_path: Path, job_id: str | None = None) -> Tuple[bool, L
                     tss_disrupting = int(
                         df_out.loc[df_out["max_tss_delta"].abs() > 0.5, "mut_id"].nunique()
                     )
+            rows = df_out
         except Exception as e:
             errors.append(f"Warning: could not read pipeline output for metrics: {e!r}")
 

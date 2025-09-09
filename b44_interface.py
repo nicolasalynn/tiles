@@ -235,7 +235,9 @@ def write_run_artifacts(job_id: str, out_dir: Path,
     json_path.write_text(json.dumps(meta, indent=2))
 
     # CSV with proper quoting
-    if rows:
+    if isinstance(rows, pd.DataFrame):
+        rows.to_csv(csv_path, index=False)
+    elif rows:
         hdr = list(rows[0].keys())
         with open(csv_path, "w", encoding="utf-8", newline="") as f:
             w = csv.DictWriter(f, fieldnames=hdr)
